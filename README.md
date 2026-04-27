@@ -155,6 +155,6 @@ The notebook automatically downloads the Stocknews dataset via Kaggle CLI on fir
 
 ## Author
 
-**Suin Kim**  
+**Suin Kim, Kunmei Huang, Nankun Liang, Swan Htet Linn, and Angad Minhas **  
 M.S. Statistics & Data Science — Baruch College  
 [linkedin.com/in/suinkim29](https://linkedin.com/in/suinkim29) · suin.kim29@gmail.com
