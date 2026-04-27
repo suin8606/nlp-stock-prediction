@@ -40,56 +40,56 @@ This isn't a failed project — it's an honest one. Documenting *why* a model un
 ### Target Label Distribution and DJIA Trend
 > Slight class imbalance (more up days than down). I use SMOTE + class_weight='balanced' to handle this.
 
-![Label Distribution](img/01_label_distribution.png)
+
 
 ---
 
 ### Most Common Words in Headlines
 > Dominated by political and economic terms — "government", "bank", "police", "year". Mostly noise from a market-prediction standpoint.
 
-![Word Frequency](img/02_word_frequency.png)
+
 
 ---
 
 ### VADER Sentiment vs Market Direction
 > Sentiment scores show weak separation between up and down days — the distributions largely overlap. This is the first signal that text features alone won't be enough.
 
-![Sentiment Boxplots](img/03_sentiment_boxplots.png)
+
 
 ---
 
 ### Named Entity Word Clouds
 > Top organizations, countries, and people mentioned across 8 years of headlines. The Fed, China, Obama, and Goldman Sachs dominate.
 
-![NER Word Clouds](img/04_ner_wordclouds.png)
+
 
 ---
 
 ### Feature Importance — Random Forest
 > Sentiment scores dominate feature importance, with a few TF-IDF terms mixed in. This confirms sentiment is the primary signal the model relies on.
 
-![Feature Importance](img/05_feature_importance.png)
+
 
 ---
 
 ### Logistic Regression Coefficients
 > Words associated with UP vs DOWN predictions. The coefficient signs are interpretable — negative financial language predicts market decline.
 
-![LR Coefficients](img/06_lr_coefficients.png)
+
 
 ---
 
 ### ROC Curves — Model Comparison
 > Both models with probability output hover near the random diagonal (AUC ≈ 0.5), confirming the fundamental difficulty of this prediction task.
 
-![ROC Curves](img/07_roc_curves.png)
+
 
 ---
 
 ### Error Analysis — Where the Model Fails
 > Even high-confidence predictions are frequently wrong. The model's uncertainty (predictions clustered near 0.5) reflects genuine difficulty, not a tuning problem.
 
-![Error Analysis](img/08_error_analysis.png)
+
 
 ---
 
