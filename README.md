@@ -1,160 +1,41 @@
-# Stock Market Movement Prediction from News Headlines
-### Can daily news predict whether the DJIA goes up or down?
+# Hi, I'm Suin Kim 👋
 
-A full NLP pipeline using Reddit news headlines (2008–2016) to predict daily DJIA stock market movement. I built this to explore how well text-based features capture financial market signals — and to be honest about where they fall short.
+**Business Research & Data Analytics Specialist** at NYC Department of Finance  
+M.S. Statistics & Data Science — Baruch College
 
-> All charts and visualizations are inside the notebook (`nlp_stock_prediction.ipynb`).
-
----
-
-## The Business Question
-
-> *If today's top news headlines are overwhelmingly negative — war, recession, scandal — does the market go down? Can we quantify that relationship and build a predictor?*
-
-This is a classic financial NLP problem. I used the Kaggle Stocknews dataset (top 25 Reddit headlines per day + DJIA labels) to test three modeling approaches and document what works, what doesn't, and why.
+I build end-to-end analytics pipelines, run rigorous statistical experiments, and translate messy data into decisions that stick.
 
 ---
 
-## Result: Near-Random Performance — And Why That's an Honest Finding
+## 🚀 Featured Projects
 
-| Model | Accuracy | ROC-AUC |
-|-------|----------|---------|
-| Random Forest (tuned) | see notebook | see notebook |
-| Logistic Regression (L1/L2) | see notebook | see notebook |
-| Naive Bayes (NER features) | see notebook | — |
-| Random baseline | 50% | 0.500 |
+### 📊 [Instacart A/B Test Analysis](https://github.com/suin8606/instacart-ab-test)
+Designed and evaluated a simulated e-commerce experiment using 3M+ Instacart orders. Applied a full statistical suite — Mann-Whitney U, Cohen's d, bootstrap CIs, Bonferroni/BH correction, power analysis, and logistic regression — to reach a data-backed **Do Not Ship** recommendation.  
+`Python` `SciPy` `Statsmodels` `Jupyter`
 
-> Run the notebook to see exact numbers — they depend on GridSearchCV tuning runs.
+### 📈 [NLP Stock Market Prediction](https://github.com/suin8606/nlp-stock-prediction)
+Predicted DJIA movement using Reddit headlines and NLP. Analyzed model limitations in the context of the Efficient Market Hypothesis — honest conclusions over inflated accuracy.  
+`Python` `NLP` `Scikit-learn` `Jupyter`
 
-**Why performance is near random chance — and why that's expected:**
-
-1. **Efficient Market Hypothesis**: By the time Reddit headlines are posted, markets have already priced in the news. Public information is reflected in prices almost instantly.
-2. **Signal-to-noise**: 25 headlines per day cover politics, sports, science, crime — most have no market relevance. Bag-of-words loses the context that makes a headline financially meaningful.
-3. **VADER limitations**: VADER was trained on social media, not financial text. "The Fed raised rates" reads as neutral to VADER but is deeply market-moving depending on context.
-4. **Missing features**: Market movement is driven by volume, options flow, earnings surprises, and macro data — none of which are in this text-only dataset.
-
-This isn't a failed project — it's an honest one. Documenting *why* a model underperforms is as valuable as reporting a suspiciously high accuracy.
+### 🔍 [Credit Card Fraud Detection](https://github.com/suin8606/Data-Analysis-and-ETL-Pipeline-Project)
+Built classification models in R to detect fraudulent transactions, with full ETL pipeline and reproducible reporting.  
+`R` `R Markdown` `Tidyverse` `Caret`
 
 ---
 
-## My Full Pipeline
+## 🛠️ Skills
 
-```
-Step  Task                                              Notes
-----  ----                                              -----
-1     Load data via Kaggle CLI
-2     EDA — label balance, DJIA price trend            Slight class imbalance identified
-3     Text preprocessing                               Combine 25 headlines → clean →
-                                                       tokenize → stopwords → lemmatize
-4     TF-IDF vectorization                             1,000 features, unigrams + bigrams
-5     VADER sentiment scoring                          Compound, pos, neg, neutral scores
-6     Lagged features                                  1-day lag on all sentiment scores
-7     Named Entity Recognition                         ORG, GPE, PER extraction via NLTK
-8     Time-based train/test split                      2008-2014 train | 2015-2016 test
-9     SMOTE oversampling                               Balance minority class (Label=0)
-10    Random Forest + GridSearchCV                     Tuned on ROC-AUC, cv=3
-11    Logistic Regression + L1/L2 tuning               GridSearchCV on C and penalty
-12    Naive Bayes with NER features                    Binary entity mention features
-13    Model comparison                                 Accuracy, ROC-AUC, F1, ROC curves
-14    Error analysis                                   Where/why models fail
-15    Conclusions + future improvements
-```
+**💻 Languages:** Python · R · SQL · SAS · Oracle · Microsoft Power Apps
+
+**🔬 Analytics:** A/B Testing · Statistical Modeling · NLP · Fraud Detection · OCR
+
+**📦 Tools:** Pandas · NumPy · SciPy · Statsmodels · Scikit-learn · Tidyverse · Jupyter
+
+**🗺️ Other:** Git · ETL Pipelines · Data Visualization · ArcGIS · SAP
 
 ---
 
-## NLP Techniques Used
+## 📬 Contact
 
-| Technique | Purpose |
-|-----------|---------|
-| Tokenization (NLTK) | Split text into individual words |
-| Stopword removal | Remove high-frequency low-signal words |
-| Lemmatization (WordNetLemmatizer) | Reduce words to base form |
-| TF-IDF (sklearn) | Weight words by importance to each day's headlines |
-| VADER sentiment | Score headline tone (positive/negative/neutral) |
-| Lagged features | Capture yesterday's sentiment as a predictor |
-| Named Entity Recognition (NLTK NE chunker) | Extract organizations, countries, people |
-| Word cloud | Visualize most frequent entities |
-
----
-
-## Models Used
-
-| Model | Why | Key design choice |
-|-------|-----|-------------------|
-| Random Forest | Handles high-dimensional sparse data, non-linear patterns | GridSearchCV, SMOTE-balanced training |
-| Logistic Regression | Strong text classification baseline, interpretable coefficients | L1/L2 regularization via GridSearchCV |
-| Naive Bayes | Designed for binary text features, fast | NER entity mentions as binary features |
-
----
-
-## What Would Actually Improve Performance
-
-1. **FinBERT** — a BERT model fine-tuned on financial text. It understands "The Fed raised rates" in context, not just as a bag of words.
-2. **Pre-market news only** — using only headlines published before market open avoids leaking same-day post-market information.
-3. **Macro features alongside text** — VIX (fear index), trading volume, sector ETF performance, earnings calendar.
-4. **Longer lag windows** — test 2, 3, 5-day lags. Market reactions to news can be delayed, especially for policy changes.
-5. **Intraday granularity** — hourly headlines matched to hourly returns instead of daily aggregation.
-
----
-
-## Folder Structure
-
-```
-nlp-stock-prediction/
-│
-├── README.md
-├── nlp_stock_prediction.ipynb    <- full analysis with all charts
-├── requirements.txt
-└── .gitignore
-```
-
----
-
-## How to Run
-
-```bash
-# 1. clone
-git clone https://github.com/your-username/nlp-stock-prediction.git
-cd nlp-stock-prediction
-
-# 2. install dependencies
-pip install -r requirements.txt
-
-# 3. set up kaggle credentials
-# place kaggle.json in ~/.kaggle/kaggle.json
-
-# 4. run notebook
-jupyter notebook nlp_stock_prediction.ipynb
-```
-
-The notebook automatically downloads the Stocknews dataset via Kaggle CLI on first run.
-
----
-
-## Dataset
-
-**Stocknews — Daily News for Stock Market Prediction**  
-[kaggle.com/datasets/aaron7sun/stocknews](https://www.kaggle.com/datasets/aaron7sun/stocknews)
-
-| File | Description |
-|------|-------------|
-| Combined_News_DJIA.csv | Top 25 Reddit headlines per day + DJIA up/down label |
-| upload_DJIA_table.csv | Daily DJIA open/close/volume prices |
-| RedditNews.csv | Raw Reddit headlines (2008–2016) |
-
----
-
-## Skills Demonstrated
-
-`Python` `NLP` `Text Preprocessing` `TF-IDF` `VADER Sentiment`  
-`Named Entity Recognition` `Random Forest` `Logistic Regression` `Naive Bayes`  
-`SMOTE` `GridSearchCV` `ROC-AUC` `Time-Series Train/Test Split`  
-`Feature Engineering` `Error Analysis`
-
----
-
-## Author
-
-**Suin Kim, Kunmei Huang, Nankun Liang, Swan Htet Linn, and Angad Minhas **  
-M.S. Statistics & Data Science — Baruch College  
-[linkedin.com/in/suinkim29](https://linkedin.com/in/suinkim29) · suin.kim29@gmail.com
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/suinkim29)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:suin.kim29@gmail.com)
